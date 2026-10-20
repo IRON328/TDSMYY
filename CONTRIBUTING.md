@@ -1,7 +1,7 @@
 # 代码协作约定
 
-- 只在本仓库继续开发新产品；原型归档仓库用于查证和对比。
-- main 是可回退的主线；功能/修复/文档使用短期分支，以 PR 合并。
+- 日常前端开发在D:/scdc-develop，本仓库负责备份、版本标注和恢复；后端D:/mgy不在范围内。
+- main展示版本登记；稳定位置为stable/current与stable/previous，详见VERSIONS.md。未验收中间备份不替代稳定版，禁止用文档提交冒充前端版本。
 - 提交格式：feat:、fix:、refactor:、docs:、test:、chore:；一个提交只表达一项意图。
 - 改接口或数据结构时，同时更新类型、调用方和必要验证，说明旧数据如何处理。
 - 成果预览、对话卡、历史和导出统一引用 projectId + artifactId + versionId；异步事件增加 runId。
