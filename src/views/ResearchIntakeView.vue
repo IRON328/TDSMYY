@@ -2,6 +2,7 @@
   <main class="intake-page">
     <header class="intake-header">
       <RouterLink class="back-link" to="/">← 返回数模演易</RouterLink>
+      <RouterLink to="/research/sandbox">进入本机沙箱 →</RouterLink>
       <span class="trial-badge">市调接入试片 · 本机模式</span>
     </header>
 

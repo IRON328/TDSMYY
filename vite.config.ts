@@ -14,6 +14,7 @@ export default defineConfig(({ mode }) => {
   const backendTarget = env.VITE_BACKEND_TARGET || 'http://localhost:8080'
 
   const proxyOptions = {
+    '/sandbox-api': { target: 'http://127.0.0.1:8766', changeOrigin: true },
     '/api': { target: backendTarget, changeOrigin: true },
     '/agui': { target: backendTarget, changeOrigin: true },
     /**

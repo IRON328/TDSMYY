@@ -47,6 +47,8 @@ const router = createRouter({
       meta: { requiresAuth: true, requiresAdmin: true },
     },
 
+    { path: '/research/sandbox', name: 'research-sandbox', component: () => import('@/views/ResearchSandboxView.vue') },
+
     { path: '/research/intake', name: 'research-intake', component: () => import('@/views/ResearchIntakeView.vue') },
 
     { path: '/login', name: 'login', component: () => import('@/views/LoginView.vue') },
