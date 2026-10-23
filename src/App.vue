@@ -9,7 +9,7 @@
     <header class="app-top">
       <div class="brand">
         <span class="dot" />
-        <strong>数模演易</strong>
+        <strong>市调演真</strong>
         <span class="sub">沙箱工作台</span>
       </div>
 
@@ -60,7 +60,7 @@ const sandbox = useSandboxStore()
 /** 沙箱是独立模块，只有路径以 /sandbox 开头时才套沙箱外壳 */
 const isSandbox = computed(() => route.path.startsWith('/sandbox'))
 
-const PROTOTYPE_ROUTE_NAMES = new Set(['home', 'mine', 'work', 'problem'])
+const PROTOTYPE_ROUTE_NAMES = new Set(['legacy-prototype', 'mine', 'work', 'problem'])
 const isPrototypeRoute = computed(
   () => typeof route.name === 'string' && PROTOTYPE_ROUTE_NAMES.has(route.name),
 )

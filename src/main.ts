@@ -5,7 +5,7 @@ import router from './router'
 import './styles/global.scss'
 
 import { useUserStore } from '@/stores/user'
-import { loadOutsourcedCases } from '@/stores/outsourcedCases'
+
 import { ensureAnalysisStyles } from '@/utils/analysis/styles'
 
 /**
@@ -41,4 +41,3 @@ app.mount('#app')
 void useUserStore(pinia)
   .ensureRestored()
   .catch(() => undefined)
-void loadOutsourcedCases().catch(() => undefined)

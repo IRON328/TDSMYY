@@ -26,7 +26,9 @@ function isAdminUser(user: UserInfo | null): boolean {
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
-    { path: '/', name: 'home', component: () => import('@/views/PrototypeShell.vue') },
+    { path: '/', name: 'home', component: () => import('@/views/ResearchHomeView.vue') },
+    { path: '/research/work', name: 'research-workspace', component: () => import('@/views/ResearchWorkspaceView.vue') },
+    { path: '/legacy/prototype', name: 'legacy-prototype', component: () => import('@/views/PrototypeShell.vue') },
     {
       path: '/mine',
       name: 'mine',
@@ -49,7 +51,7 @@ const router = createRouter({
 
     { path: '/research/sandbox', name: 'research-sandbox', component: () => import('@/views/ResearchSandboxView.vue') },
 
-    { path: '/research/intake', name: 'research-intake', component: () => import('@/views/ResearchIntakeView.vue') },
+    { path: '/research/intake', name: 'research-intake', redirect: '/research/work' },
 
     { path: '/login', name: 'login', component: () => import('@/views/LoginView.vue') },
 

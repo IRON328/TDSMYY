@@ -15,8 +15,8 @@
         </svg>
       </div>
       <div class="brand-txt">
-        <span class="brand-name">数模演易</span>
-        <span class="brand-sub">MathModeling Studio</span>
+        <span class="brand-name">市调演真</span>
+        <span class="brand-sub">Survey Research Studio</span>
       </div>
     </a>
     <nav class="nav-links">
@@ -45,9 +45,9 @@
 <section id="view-home" class="view on">
   <div class="hero">
     <div class="hero-inner">
-      <div class="hero-badge"><i class="dot"></i>AI 驱动的数学建模协作工作台</div>
-      <h1>把历年真题，变成<span class="g">你的练习场</span></h1>
-      <p class="sub">读懂、拆解、求解、成文，AI 一路陪你走完。专为大学生数学建模竞赛设计。</p>
+      <div class="hero-badge"><i class="dot"></i>AI 辅助的市场调查研究工作台</div>
+      <h1>让调查材料，成为<span class="g">有据可查的结论</span></h1>
+      <p class="sub">围绕研究问题整理材料、分析数据、审阅结果。当前优先开放已有数据分析，其余流程逐步接入。</p>
 
       <div class="hero-reco">
         <div class="sec-head">
@@ -106,9 +106,9 @@
 
   <div class="foot">
     <div class="foot-in">
-      <span>数模演易 · MathModeling Studio</span>
+      <span>市调演真 · Survey Research Studio</span>
       <div class="grow"></div>
-      <span>面向高职与本科生的数学建模竞赛实训平台</span>
+      <span>面向市场调查的材料、分析与成果协作工作台</span>
     </div>
   </div>
 </section>
@@ -450,7 +450,7 @@ setPrototypeNavHooks({
 })
 
 /* ── 真实分析通道（本轮新增）────────────────────────────────────────────
-   注册给 core 用：进 C 题工作台时先让「数模演易」智能体读题并生成分析，
+   注册给 core 用：进 C 题工作台时先让「市调演真」智能体读题并生成分析，
    分析与候选模型优先用它；未登录、后端不可用、跑失败都自动回落到内置剧本。
    注册表为空时 core 会当作「没有这条通道」，所以单跑原型逻辑不受影响。 */
 setPrototypeAnalysisHooks(createAnalysisHooks())

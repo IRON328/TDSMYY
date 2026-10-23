@@ -1,12 +1,4 @@
-<!--
-  登录页 —— 从 kuaike 的 `views/LoginView.vue` 同步过来
-
-  框架沿用 kuaike 原版（登录 / 注册 / 找回三态、注册三种方式、验证码倒计时、
-  回跳 redirect）；本地改了三处：
-    1. 主题：kuaike 的靛紫 #6366f1 换成数模演易的青绿 --c-primary #12a594
-    2. 文案：品牌与左栏叙事换成数模演易口径，阶段流用原型的六步
-    3. 移除「体验账号」展示与一键填入（公网页面不暴露账号口令）
--->
+<!-- 市调演真登录、注册和找回密码；沿用现有认证接口与表单行为。 -->
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -35,16 +27,16 @@ const submitting = ref(false)
 if (mode.value === 'forgot' && userStore.user?.username) username.value = userStore.user.username
 
 /**
- * 左栏阶段流 —— 用原型工作台自己的六步（STEPS），
- * 不是 kuaike 那套「五阶段」，所以这里是六项，版式按六项排。
+ * 登录页左栏展示市场调查的研究流程。
+
  */
 const stageFlow = [
-  { num: '壹', name: '全局分析', desc: '读懂题目、附件与约束，先把问题摊平' },
-  { num: '贰', name: '问题一', desc: '确定性条件下建立基线模型并求解' },
-  { num: '叁', name: '问题二', desc: '引入预测与不确定性，改滚动决策' },
-  { num: '肆', name: '问题三', desc: '评估新增信息值不值得，量化收益' },
-  { num: '伍', name: '问题四', desc: '放开价格约束，做波动下的鲁棒策略' },
-  { num: '陆', name: '论文', desc: '组织图表与行文，产出可提交的成稿' },
+  { num: '壹', name: '明确问题', desc: '说明调查主题、对象与决策背景' },
+  { num: '贰', name: '整理材料', desc: '管理问卷、访谈记录与已有数据' },
+  { num: '叁', name: '核对问卷', desc: '检查题项、选项、跳转与回收质量' },
+  { num: '肆', name: '分析数据', desc: '标明方法、统计口径与数据限制' },
+  { num: '伍', name: '审阅发现', desc: '对照原始材料复核分析结果' },
+  { num: '陆', name: '整理成果', desc: '组织结论、图表与可追溯的依据' },
 ]
 
 // 注册方式（账密 / 手机号 / 邮箱）
@@ -184,14 +176,13 @@ async function submit(): Promise<void> {
             <path d="M4 19V6M4 19h16M8 19v-6M12 19V9M16 19v-8M20 19v-4" />
           </svg>
         </span>
-        <span class="pitch-name">数模演易</span>
+        <span class="pitch-name">市调演真</span>
       </div>
 
       <div class="pitch-body">
-        <h1 class="pitch-title">把历年真题，变成你的练习场</h1>
+        <h1 class="pitch-title">从调查材料，走向有据可查的结论</h1>
         <p class="pitch-sub">
-          读懂、拆解、求解、成文，AI 一路陪你走完。每一步的取舍仍在关键闸门由你拍板，
-          它只负责把该算的算完、该写的写好。
+          围绕调查问题整理材料、核对问卷、分析数据并审阅发现。每项结论都需要依据，分析结果由研究者确认。
         </p>
 
         <div class="pitch-flow">
@@ -214,7 +205,7 @@ async function submit(): Promise<void> {
         <div class="card-head">
           <h2 class="card-title" :key="mode">
             <span v-if="mode === 'login'">欢迎回来</span>
-            <span v-else-if="mode === 'register'">开始你的演易</span>
+            <span v-else-if="mode === 'register'">开始你的市场调查研究</span>
             <span v-else>重置密码</span>
           </h2>
           <p class="card-intro">
@@ -306,13 +297,13 @@ async function submit(): Promise<void> {
         </div>
       </div>
 
-      <p class="panel-legal">数模演易 · AI 驱动的数学建模协作工作台</p>
+      <p class="panel-legal">市调演真 · AI 辅助的市场调查研究工作台</p>
     </main>
   </div>
 </template>
 
 <style scoped lang="scss">
-/* 主题：kuaike 的靛紫 #6366f1 → 数模演易青绿 --c-primary #12a594
+/* 主题采用市调演真的青绿色令牌
    色值全部走 styles/tokens.scss 的令牌，不再写死靛紫，避免半成品换皮 */
 .auth {
   height: 100vh;
