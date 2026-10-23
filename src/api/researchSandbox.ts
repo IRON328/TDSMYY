@@ -3,10 +3,13 @@ export interface SandboxWorkspace { workspaceId:string; title:string; files:Sand
 export interface SandboxArtifact { artifactId:string; versionId:string; name:string; size:number; sha256:string }
 export interface SandboxRun { workspaceId:string;runId:string;inputFingerprint:string;executionStatus:string;outputStatus:string;error:string|null;log:string;artifacts:SandboxArtifact[];inputs:SandboxFile[] }
 const prefix = '/sandbox-api/v1'
+const knownErrorMessages: Record<string, string> = {
+  execution_unavailable: '沙箱暂不可运行：Docker 引擎或固定 Python 环境未就绪，本次任务未启动；已上传数据仍保留在本机工作区。',
+}
 export function sandboxClient(token:string) {
   async function request<T>(path:string, init:RequestInit = {}):Promise<T> {
     const response = await fetch(prefix + path, {...init, headers:{Authorization:'Bearer '+token,...init.headers}, signal:AbortSignal.timeout(15000)})
-    if(!response.ok) { const error = await response.json().catch(()=>({message:'服务连接失败'})); throw new Error(error.message || error.code || String(response.status)) }
+    if(!response.ok) { const error = await response.json().catch(()=>({message:'服务连接失败'})); throw new Error(knownErrorMessages[error.code] || error.message || error.code || String(response.status)) }
     return response.json()
   }
   const post = <T>(path:string, data:unknown, extra = {}) => request<T>(path,{method:'POST',headers:{'Content-Type':'application/json',...extra},body:JSON.stringify(data)})
