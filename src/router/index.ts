@@ -106,4 +106,20 @@ router.beforeEach(async (to) => {
   return true
 })
 
+// A cached homepage can outlive its local server. Explain a failed lazy route
+// instead of leaving a clickable entry apparently unresponsive.
+router.onError((error) => {
+  if(!/dynamically imported module|Importing a module script failed|Loading chunk|Unable to preload CSS/i.test(error.message)) return
+  if(document.getElementById('research-page-load-error')) return
+  const notice=document.createElement('div')
+  notice.id='research-page-load-error';notice.setAttribute('role','alert')
+  notice.style.cssText='position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:10000;max-width:680px;padding:16px 20px;border:1px solid #c9a36b;border-radius:10px;background:#fff8ec;color:#493419;box-shadow:0 6px 24px #0002'
+  const text=document.createElement('p')
+  text.textContent='页面文件未能加载，请确认网页服务已启动，再刷新页面。若刚更新过版本，也请刷新后重新进入；本机草稿仍保留。'
+  const button=document.createElement('button')
+  button.type='button';button.textContent='刷新页面';button.onclick=()=>window.location.reload()
+  notice.append(text,button);document.body.append(notice)
+})
+router.afterEach((_to,_from,failure)=>{if(!failure)document.getElementById('research-page-load-error')?.remove()})
+
 export default router

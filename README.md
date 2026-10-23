@@ -1,4 +1,4 @@
-# 拒绝脑补前端
+# 市调演真前端
 
 在数模演易 Vue/Vite 外壳上逐步接入市调功能。实际开发目录是 `D:/scdc-develop`，本目录直接由 Git 管理；GitHub 仓库为 `Mgy-d/jujue-naobu-workbench`。通过功能分支、提交和 PR 管理源码，无需另拷贝一份 frontend 快照。
 
@@ -15,9 +15,17 @@ pnpm dev
 
 ## 当前接入范围
 
-首页“已有数据分析”进入 `/#/research/intake`。当前支持任务名称、文件元数据选择、保存本机草稿和刷新恢复。不会读取文件正文、上传、解析统计或保存服务端项目成果；页面明确显示未接通。文件正文不在 localStorage 内，刷新后需重新选择。
+首页进入 `/#/research/work` 主工作台；`/#/research/intake` 重定向到工作台。当前支持任务上下文、本机草稿，以及通过独立沙箱上传 CSV/XLSX、解析、描述统计、受限 Python、运行反馈和固定候选结果下载。文件正文不保存在 localStorage，正式项目/版本保存、完整研究和问卷核对仍待接入。
 
-复用入口：`src/api/http.ts` 负责请求和认证，`src/api/` 中保留流式事件、附件与产物读取。新切片入口是 `src/views/ResearchIntakeView.vue` 和 `src/utils/research-intake.js`。生成外壳与 legacy DOM 调用需保持契约。
+前端与分析服务分别启动：网页导航依赖前端进程；解析、统计和运行依赖本机沙箱。启动后可以连续测试，无需每次重启。停止前端后，已打开首页可能仍能显示，但首次进入工作台所需的页面文件无法加载。
+
+独立服务源码在 `D:/Codex/workspace/市场调研大赛/services/research-sandbox`，按其 README 准备 Docker 与固定运行依赖，运行 `start.ps1` 后检查 `http://127.0.0.1:8766/sandbox-api/health` 的 ready。页面使用本机访问令牌连接；不要将令牌写入 URL、截图或提交。
+
+开发地址为 `http://127.0.0.1:5181/#/`。5182 仅在显式启动预览时可用；不同端口的浏览器草稿和连接信息分别保存，不要因为测试而随意切换用户正在使用的地址。验收结束只清理本轮专属进程，不停止用户正在使用的服务；留下服务地址、健康状态和是否保持运行的交接记录。
+
+本机 CSV/XLSX 页面链路、容器资源边界与专属 API 强杀恢复已有实际验收；一次 Docker 启动延迟触发超时的记录仍保留，不能据单次通过宣称持续稳定。本机保存的结果是待审候选，不代表正式业务采纳。
+
+主要接线：`src/views/ResearchWorkspaceView.vue`、`src/views/ResearchSandboxView.vue`、`src/api/researchSandbox.ts` 和 `src/utils/research-intake.js`。旧数模原型在 `/#/legacy/prototype`；保留其 DOM 契约，不从市调入口误调用旧智能体。
 
 ## 检查
 
@@ -32,4 +40,4 @@ python scripts/check_repository.py
 
 代码、锁文件、必要静态资源与迁移配置进入仓库；密钥、原始调查数据、运行态、截图、验证构建及本机配置不进入仓库。`public/cases` 为原外壳随包发布的静态示例资源，不能代表真实后端执行结果。
 
-稳定版本规则见 `VERSIONS.md`。当前分支通过检查不等于真实业务闭环验收；真实项目/版本保存、解析执行服务和正式沙箱需后端交付后再接入。
+稳定版本规则见 `VERSIONS.md`。当前分支通过检查不等于真实业务闭环验收；正式项目/版本保存、身份权限桥接和团队部署仍需对应后端与环境交付；本机沙箱的通过范围见独立服务验收文档。
