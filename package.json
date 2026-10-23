@@ -1,9 +1,9 @@
 {
-  "name": "smyy-sandbox",
+  "name": "shidiaoyanzhen-workbench",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "数模演易 · 沙箱工作台（复用既有智能体会话运行底座）",
+  "description": "市调演真 · 市场调查研究工作台",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
