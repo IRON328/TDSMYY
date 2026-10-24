@@ -6,20 +6,20 @@
       <div class="account"><span v-if="userStore.isLogged">{{ userStore.displayName }}</span><RouterLink v-else to="/login">登录 / 注册</RouterLink><button v-if="userStore.isLogged" @click="userStore.logout()">退出</button></div>
     </header>
     <section class="hero">
-      <div><p class="eyebrow">面向市场调查的研究协作</p><h1>从调查材料，走向<br><em>有据可查的结论</em></h1><p class="lead">围绕研究问题整理材料、核对问卷、分析已有数据。每一步呈现依据与状态，结论由研究者审阅确认。</p><RouterLink class="primary" to="/research/work">继续已有数据分析 <span aria-hidden="true">→</span></RouterLink></div>
-      <aside class="hero-note"><span class="note-index">研究流程</span><ol><li>明确调查问题与对象</li><li>整理材料并核对问卷</li><li>分析数据，记录方法与限制</li><li>审阅发现，保存研究成果</li></ol><small>当前首版开放已有数据分析；其余环节按迁移计划逐步接入。</small></aside>
+      <div><p class="eyebrow">面向市场调查的研究协作</p><h1>从调查材料，走向<br><em>有据可查的结论</em></h1><p class="lead">围绕研究问题整理材料、核对问卷、分析已有数据。每一步呈现依据与状态，结论由研究者审阅确认。</p><RouterLink class="primary" to="/research/work">开始／继续完整研究 <span aria-hidden="true">→</span></RouterLink></div>
+      <aside class="hero-note"><span class="note-index">研究流程</span><ol><li>明确调查问题与对象</li><li>整理材料并核对问卷</li><li>分析数据，记录方法与限制</li><li>审阅发现，保存研究成果</li></ol><small>完整研究从赛事理解开始；已有问卷与已有答卷可独立进入。</small></aside>
     </section>
     <section class="entry-section">
       <div class="section-heading"><div><p class="eyebrow">选择你的起点</p><h2>你现在要推进哪一步？</h2></div><span>完整研究路径逐步开放</span></div>
       <div class="entries">
         <RouterLink class="entry pending" to="/research/work?mode=full">
-          <span class="entry-number">01</span><h3>完整研究</h3><p>从研究问题、调查材料到分析与成果整理的完整路径。</p><span class="entry-state">流程待接入 <b>查看范围 →</b></span>
+          <span class="entry-number">01</span><h3>完整研究</h3><p>从研究问题、调查材料到分析与成果整理的完整路径。</p><span class="entry-state">阶段框架已接入 <b>进入赛事理解 →</b></span>
         </RouterLink>
         <RouterLink class="entry pending" to="/research/work?mode=questionnaire">
-          <span class="entry-number">02</span><h3>问卷核对</h3><p>检查问卷结构、题项口径、跳转逻辑与数据质量。</p><span class="entry-state">流程待接入 <b>查看范围 →</b></span>
+          <span class="entry-number">02</span><h3>已有问卷核对</h3><p>检查问卷结构、题项口径、跳转逻辑与数据质量。</p><span class="entry-state">流程待接入 <b>查看范围 →</b></span>
         </RouterLink>
         <RouterLink class="entry ready" to="/research/work?mode=analysis">
-          <span class="entry-number">03</span><h3>已有数据分析</h3><p>上传 CSV 或 XLSX，查看字段与描述统计，或运行受限 Python。</p><span class="entry-state">首版可用 <b>进入工作台 →</b></span>
+          <span class="entry-number">03</span><h3>已有答卷／数据分析</h3><p>上传 CSV 或 XLSX，查看字段与描述统计，或运行受限 Python。</p><span class="entry-state">首版可用 <b>进入工作台 →</b></span>
         </RouterLink>
       </div>
     </section>

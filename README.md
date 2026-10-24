@@ -15,7 +15,11 @@ pnpm dev
 
 ## 当前接入范围
 
-首页进入 `/#/research/work` 主工作台；`/#/research/intake` 重定向到工作台。当前支持任务上下文、本机草稿，以及通过独立沙箱上传 CSV/XLSX、解析、描述统计、受限 Python、运行反馈和固定候选结果下载。文件正文不保存在 localStorage，正式项目/版本保存、完整研究和问卷核对仍待接入。
+首页进入 `/#/research/work` 完整研究工作台，按七阶段承载业务，新任务从赛事理解开始。`?mode=questionnaire` 是已有问卷独立入口；`?mode=analysis` 是已有答卷／数据分析独立入口，历史 `/#/research/intake` 保留跳转到数据分析。三类任务和同类多份本机草稿分别保存，流程类型不随入口切换而改变。查看阶段不代表正式推进。
+
+赛事理解已提供上下文、来源与未知项的公共类型、挂载接点、本机完整性提示和保存状态；正式编辑组件由 F 交付。`/#/dev/research/contest` 仅在开发模式提供合成组件样例和错误／只读验证，不进入生产构建。项目创建、正式候选保存、G0 检查及确认仍等待 BA 真实接口，不猜测 URL 或显示成功。接线与交接说明见 `docs/research-first-stage.md`。
+
+数据分析入口保留 CSV/XLSX 上传、解析、描述统计、受限 Python、运行反馈和固定候选结果下载。运行引用按本机任务保存；请求发出后切换页面，返回的登记仍写回原任务。文件正文和访问令牌不写入草稿目录；本机候选不等于业务项目／版本保存。
 
 前端与分析服务分别启动：网页导航依赖前端进程；解析、统计和运行依赖本机沙箱。启动后可以连续测试，无需每次重启。停止前端后，已打开首页可能仍能显示，但首次进入工作台所需的页面文件无法加载。
 
@@ -25,7 +29,7 @@ pnpm dev
 
 本机 CSV/XLSX 页面链路、容器资源边界与专属 API 强杀恢复已有实际验收；一次 Docker 启动延迟触发超时的记录仍保留，不能据单次通过宣称持续稳定。本机保存的结果是待审候选，不代表正式业务采纳。
 
-主要接线：`src/views/ResearchWorkspaceView.vue`、`src/views/ResearchSandboxView.vue`、`src/api/researchSandbox.ts` 和 `src/utils/research-intake.js`。旧数模原型在 `/#/legacy/prototype`；保留其 DOM 契约，不从市调入口误调用旧智能体。
+主要接线：`src/views/ResearchWorkspaceView.vue`、`src/views/ResearchSandboxView.vue`、`src/api/researchSandbox.ts`、`src/stores/research.ts`、`src/types/research-contracts.ts` 和 `src/utils/researchDrafts.ts`（保留旧 `research-intake.js` 迁移读取）。旧数模原型在 `/#/legacy/prototype`；保留其 DOM 契约，不从市调入口误调用旧智能体。
 
 ## 检查
 

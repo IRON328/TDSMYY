@@ -28,6 +28,7 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'home', component: () => import('@/views/ResearchHomeView.vue') },
     { path: '/research/work', name: 'research-workspace', component: () => import('@/views/ResearchWorkspaceView.vue') },
+    ...(import.meta.env.DEV ? [{ path: '/dev/research/contest', component: () => import('@/dev/ResearchComponentHarness.vue') }] : []),
     { path: '/legacy/prototype', name: 'legacy-prototype', component: () => import('@/views/PrototypeShell.vue') },
     {
       path: '/mine',
@@ -51,7 +52,7 @@ const router = createRouter({
 
     { path: '/research/sandbox', name: 'research-sandbox', component: () => import('@/views/ResearchSandboxView.vue') },
 
-    { path: '/research/intake', name: 'research-intake', redirect: '/research/work' },
+    { path: '/research/intake', name: 'research-intake', redirect: '/research/work?mode=analysis' },
 
     { path: '/login', name: 'login', component: () => import('@/views/LoginView.vue') },
 

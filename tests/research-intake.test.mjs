@@ -87,6 +87,6 @@ test('project upload, real run, and server save remain unavailable until their A
 test('former intake route opens the shared research workspace without changing the legacy prototype shell', () => {
   assert.ok(routerSource.includes("path: '/research/intake'"))
   assert.ok(routerSource.includes("name: 'research-intake'"))
-  assert.ok(routerSource.includes("redirect: '/research/work'"))
+  assert.ok(routerSource.includes("redirect: '/research/work?mode=analysis'"))
   assert.ok(routerSource.includes('ResearchWorkspaceView'))
 })
