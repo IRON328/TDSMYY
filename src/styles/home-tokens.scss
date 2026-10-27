@@ -1,0 +1,45 @@
+/**
+ * 首页视觉变量 —— 逐条取自《数模演易原型v2》的 `:root`，不做「近似取值」。
+ *
+ * 为什么不复用 tokens.scss：两套令牌的主色确实是同一个青绿（#12A594），
+ * 但原型在**线色、圆角、阴影**上用的是另一组数（line #DCEDEE / r 16px /
+ * sh-3 0 20px 50px），首页要「和原型一致」就必须用原型那组。
+ * 折中办法是把原型那组收成 `--hp-*` 前缀放在这里，与 `--c-*` 并存：
+ * 首页用它，其余页面继续用 `--c-*`，互不干扰。
+ *
+ * 放全局而不是放在首页组件的 scoped style 里，是因为 scoped 会给 `:root`
+ * 也打上 data-v 属性，变量就挂不到 `html` 上，子孙组件取不到。
+ */
+:root {
+  /* 青绿主阶 */
+  --hp-blue-900: #0b6e68;
+  --hp-blue-800: #0e8f84;
+  --hp-blue-700: #12a594;
+  --hp-blue-600: #1e6fa8;
+  --hp-blue-500: #2ec4b0;
+  --hp-blue-400: #4fd0c0;
+  --hp-blue-300: #92ded5;
+  --hp-blue-200: #b8e8e2;
+  --hp-blue-100: #dff4f1;
+  --hp-blue-50: #effaf8;
+
+  /* 文字与分隔 */
+  --hp-ink: #0b2e36;
+  --hp-ink-2: #3d6570;
+  --hp-ink-3: #7c99a1;
+  --hp-ink-4: #a9bec2;
+  --hp-line: #dcedee;
+  --hp-line-2: #eaf5f5;
+
+  /* 渐变与阴影 */
+  --hp-grad: linear-gradient(120deg, #12a594 0%, #1e9fc4 100%);
+  --hp-grad-soft: linear-gradient(120deg, #effaf8 0%, #eaf5f5 100%);
+  --hp-sh1: 0 2px 8px rgba(11, 110, 104, 0.06);
+  --hp-sh2: 0 10px 30px rgba(11, 110, 104, 0.09);
+  --hp-sh3: 0 20px 50px rgba(11, 110, 104, 0.14);
+
+  /* 圆角与版心 */
+  --hp-r: 16px;
+  --hp-pw: 1680px;
+  --hp-px: 40px;
+}

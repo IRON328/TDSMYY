@@ -278,6 +278,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick } from 'vue'
+import { createUuid } from '../../utils/uuid'
 import type {
   CompetitionDraft,
   ContestActionRequest,
@@ -368,7 +369,7 @@ function onGroupInput(event: Event) {
 
 // ── 要求 ────────────────────────────────────────────────────────────────
 function addRequirement() {
-  const next: ContestRequirement = { id: `req-${crypto.randomUUID()}`, text: '', sourceIds: [] }
+  const next: ContestRequirement = { id: `req-${createUuid()}`, text: '', sourceIds: [] }
   commit({ requirements: [...currentDraft().requirements, next] })
 }
 
@@ -400,7 +401,7 @@ function toggleRequirementSource(requirementId: string, sourceId: string) {
 // ── 来源 ────────────────────────────────────────────────────────────────
 function addSource() {
   const next: ContestSource = {
-    sourceId: `src-${crypto.randomUUID()}`,
+    sourceId: `src-${createUuid()}`,
     title: '',
     locator: '',
     evidenceStatus: 'unverified',
@@ -444,7 +445,7 @@ function onSourceStatusChange(sourceId: string, event: Event) {
 
 // ── 未知项 ──────────────────────────────────────────────────────────────
 function addUnknown() {
-  const next: ContestUnknown = { id: `unknown-${crypto.randomUUID()}`, text: '', blocksDecision: false }
+  const next: ContestUnknown = { id: `unknown-${createUuid()}`, text: '', blocksDecision: false }
   commit({ unknowns: [...currentDraft().unknowns, next] })
 }
 

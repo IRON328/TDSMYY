@@ -95,6 +95,9 @@ Thumbs.db
 dist/
 build/
 
+# 本地参考资料（原型单文件、导出的对标稿等），体积大且非源码，不进仓库
+reference/
+
 # 本机运行配置和含真实输入/会话的诊断样本，不属于源码。
 .run/
 scripts/port/fixtures/artifact-runroot/

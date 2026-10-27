@@ -785,6 +785,7 @@
 
 <script setup lang="ts">
 import { computed, nextTick } from 'vue'
+import { createUuid } from '../../utils/uuid'
 import {
   FINDING_KIND_OPTIONS,
   PRETEST_VERDICT_OPTIONS,
@@ -1102,7 +1103,7 @@ function roundNumberOf(roundId: string): number {
 // ── 试填发现 ────────────────────────────────────────────────────────────
 function addFinding(roundId: string) {
   const finding = {
-    id: `f-${crypto.randomUUID()}`,
+    id: `f-${createUuid()}`,
     questionId: '',
     kind: 'wording' as FindingKind,
     text: '',
@@ -1186,7 +1187,7 @@ function onOtherNoteInput(event: Event) {
 
 // ── 未知项 ──────────────────────────────────────────────────────────────
 function addUnknown() {
-  commit({ unknowns: [...currentDraft().unknowns, { id: `u-${crypto.randomUUID()}`, text: '', blocksDecision: false }] })
+  commit({ unknowns: [...currentDraft().unknowns, { id: `u-${createUuid()}`, text: '', blocksDecision: false }] })
 }
 
 function removeUnknown(id: string) {

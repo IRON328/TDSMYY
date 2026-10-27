@@ -1,6 +1,6 @@
 <template>
   <main class="research-workspace" v-if="task">
-    <header class="workspace-nav"><RouterLink to="/" class="brand"><span class="mark">调</span><span><strong>市调演真</strong><small>研究工作台</small></span></RouterLink><RouterLink to="/">← 返回研究入口</RouterLink><span class="draft-hint">任务分别保留本机草稿</span></header>
+    <header class="workspace-nav"><RouterLink to="/" class="brand"><span class="mark">调</span><span><strong>市调演真</strong><small>研究工作台</small></span></RouterLink><RouterLink to="/workbench">← 返回工作台</RouterLink><span class="draft-hint">任务分别保留本机草稿</span></header>
     <section class="workspace-heading"><div><p class="eyebrow">研究任务 · {{ modeLabel }}</p><h1>{{ task.title || modeLabel }}</h1><p>按业务阶段整理资料，保留依据与未知项。正式保存和阶段确认接入后，由服务端校验。</p></div><span class="local-chip">本机研究工作区</span></section>
     <section class="context">
       <div class="task-picker"><label>继续此类任务<select :value="task.localTaskId" @change="continueTask"><option v-for="item in tasks" :key="item.localTaskId" :value="item.localTaskId">{{ item.title || modeLabel }}</option></select></label><button class="new-task" @click="newTask">新建{{ modeLabel }}任务</button></div>
@@ -16,6 +16,8 @@
         <CompetitionUnderstandingHost v-if="kind==='full-study' && task.viewedPhase===0 && store.context" :key="task.localTaskId" :context="store.context" :draft="task.competition" @update-draft="store.updateCompetition" @save-local="store.save()" />
         <TopicAnalysisHost v-else-if="kind==='full-study' && task.viewedPhase===1" :key="task.localTaskId" :local-task-id="task.localTaskId" :competition="task.competition" @view-phase="viewStage" />
         <ResearchPlanHost v-else-if="kind==='full-study' && task.viewedPhase===2" :key="task.localTaskId" :local-task-id="task.localTaskId" :competition="task.competition" @view-phase="viewStage" />
+        <ResearchQuestionnaireHost v-else-if="kind==='full-study' && task.viewedPhase===3" :key="task.localTaskId" :local-task-id="task.localTaskId" @view-phase="viewStage" />
+        <DataAnalysisHost v-else-if="kind==='full-study' && task.viewedPhase===5" :key="task.localTaskId" :local-task-id="task.localTaskId" @view-phase="viewStage" />
         <ResearchSandboxView v-else-if="kind==='dataset-analysis' && task.viewedPhase===0" :key="task.localTaskId" :task-id="task.localTaskId" :task-title="task.title" :initial-sandbox-ref="task.sandboxRef" :persist-sandbox-reference="store.recordSandboxReference" :persist-input-file="store.recordInputFile" @update:task-title="updateTitle" @update:input-file="updateInputFile" @update:sandbox-ref="updateSandboxRef" />
         <div v-else class="stage-pending"><p class="eyebrow">{{ kind==='full-study'?'完整研究阶段范围':'独立快捷入口' }}</p><h2>{{currentStage?.title}}</h2><p>{{ stageDescription }}</p><p>业务功能待接入；没有将此任务标为完成，也没有调用旧数模智能体。</p><button v-if="task.viewedPhase>0" @click="viewStage(0)">返回{{stages[0]?.title}}</button></div>
       </div>
@@ -29,6 +31,8 @@ import ResearchSandboxView from '@/views/ResearchSandboxView.vue'
 import CompetitionUnderstandingHost from '@/views/research/CompetitionUnderstandingHost.vue'
 import TopicAnalysisHost from '@/views/research/TopicAnalysisHost.vue'
 import ResearchPlanHost from '@/views/research/ResearchPlanHost.vue'
+import ResearchQuestionnaireHost from '@/views/research/ResearchQuestionnaireHost.vue'
+import DataAnalysisHost from '@/views/research/DataAnalysisHost.vue'
 import { useResearchStore } from '@/stores/research'
 import { kindToMode,modeToKind,stagesFor,workflowLabel } from '@/utils/researchDrafts'
 import type {SelectedInputMetadata,SandboxReference} from '@/types/research-contracts'

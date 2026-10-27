@@ -27,8 +27,13 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     { path: '/', name: 'home', component: () => import('@/views/ResearchHomeView.vue') },
+    // 工作台列表页（项目列表）。与 `/work`（原型壳里的数模工作台）、
+    // `/research/work`（单个任务的编辑器）三者不是一回事：
+    // 这里是「挑一份研究继续」，点进去才到编辑器。不需要登录——记录全在本机。
+    { path: '/workbench', name: 'workbench', component: () => import('@/views/ResearchWorkbenchView.vue') },
     { path: '/research/work', name: 'research-workspace', component: () => import('@/views/ResearchWorkspaceView.vue') },
     ...(import.meta.env.DEV ? [{ path: '/dev/research/contest', component: () => import('@/dev/ResearchComponentHarness.vue') }] : []),
+    ...(import.meta.env.DEV ? [{ path: '/dev/research/workbench', component: () => import('@/dev/WorkbenchPreview.vue') }] : []),
     { path: '/legacy/prototype', name: 'legacy-prototype', component: () => import('@/views/PrototypeShell.vue') },
     {
       path: '/mine',

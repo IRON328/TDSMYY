@@ -772,6 +772,7 @@
 <script setup lang="ts">
 import { computed, nextTick } from 'vue'
 import type { ContestSource } from '../../types/research-contracts'
+import { createUuid } from '../../utils/uuid'
 import {
   ANALYSIS_OPTIONS,
   INSTRUMENT_OPTIONS,
@@ -846,7 +847,7 @@ function textOf(event: Event): string {
 }
 
 function uid(prefix: string): string {
-  return `${prefix}-${crypto.randomUUID()}`
+  return `${prefix}-${createUuid()}`
 }
 
 // ── 上游 ────────────────────────────────────────────────────────────────

@@ -20,6 +20,7 @@
  *   - 变量映射单向：问卷存 measureId，不回写 plan.measures[].questionIds（由 P 保存时派生）。
  */
 import type { ContestUnknown, DraftContext } from '../../types/research-contracts'
+import { createUuid } from '../../utils/uuid'
 import type { MeasureLevel, PlanMeasure, ResearchPlanDraft } from './plan-contract'
 
 // ── 枚举 ───────────────────────────────────────────────────────────────────
@@ -187,7 +188,7 @@ const NUMERIC_LEVELS: MeasureLevel[] = ['interval', 'ratio']
 // ── 构造与清洗 ─────────────────────────────────────────────────────────────
 
 export function emptyQuestionOption(label = ''): QuestionOption {
-  return { id: `o-${crypto.randomUUID()}`, label, code: '', exclusive: false, openEnded: false }
+  return { id: `o-${createUuid()}`, label, code: '', exclusive: false, openEnded: false }
 }
 
 export function emptyScaleSpec(): ScaleSpec {
@@ -196,7 +197,7 @@ export function emptyScaleSpec(): ScaleSpec {
 
 export function emptySurveyQuestion(type: QuestionType = 'single'): SurveyQuestion {
   return {
-    id: `q-${crypto.randomUUID()}`,
+    id: `q-${createUuid()}`,
     text: '',
     type,
     required: true,
@@ -210,7 +211,7 @@ export function emptySurveyQuestion(type: QuestionType = 'single'): SurveyQuesti
 
 export function emptyPretestRound(signature = ''): PretestRound {
   return {
-    id: `r-${crypto.randomUUID()}`,
+    id: `r-${createUuid()}`,
     date: '',
     respondentCount: null,
     channel: '',

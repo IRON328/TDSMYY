@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue';
 import { defineStore } from 'pinia';
 import type { CompetitionDraft, DraftContext, LocalResearchTask, WorkflowKind, SandboxReference, SelectedInputMetadata } from '../types/research-contracts';
-import { createLocalTask, editLocalTask, loadTaskRegistry, matchesDraftContext, normalizeCompetitionDraft, saveLocalTask } from '../utils/researchDrafts';
+import { createLocalTask, editLocalTask, loadTaskRegistry, matchesDraftContext, normalizeCompetitionDraft, removeLocalTask, saveLocalTask } from '../utils/researchDrafts';
 export const useResearchStore = defineStore('research-tasks', () => {
     const storage = { getItem: (key: string) => localStorage.getItem(key), setItem: (key: string, value: string) => localStorage.setItem(key, value) };
     const loaded = loadTaskRegistry(storage), registry = ref(loaded.registry), draft = ref<LocalResearchTask | null>(null), feedback = ref(''), storageError = ref(loaded.error || '');
@@ -68,5 +68,20 @@ export const useResearchStore = defineStore('research-tasks', () => {
     }
     function recordSandboxReference(localTaskId: string, sandboxRef: SandboxReference) { persistTaskPatch(localTaskId, { sandboxRef }); }
     function recordInputFile(localTaskId: string, inputFile: SelectedInputMetadata) { persistTaskPatch(localTaskId, { inputFile }); }
-    return { registry, draft, context, feedback, storageError, open, create, update, updateCompetition, save, recordSandboxReference, recordInputFile };
+    /** 删除一份本机任务。失败时不动磁盘、保留原记录，把原因放进 storageError。 */
+    function remove(localTaskId: string) {
+        try {
+            registry.value = removeLocalTask(storage, registry.value, localTaskId);
+            if (draft.value?.localTaskId === localTaskId)
+                draft.value = null;
+            storageError.value = '';
+            feedback.value = '已从本机删除这份研究。';
+            return true;
+        }
+        catch (error) {
+            storageError.value = error instanceof Error ? error.message : '本机删除失败，原记录未动。';
+            return false;
+        }
+    }
+    return { registry, draft, context, feedback, storageError, open, create, update, updateCompetition, save, remove, recordSandboxReference, recordInputFile };
 });

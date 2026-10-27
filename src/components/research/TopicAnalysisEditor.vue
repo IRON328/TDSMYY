@@ -362,6 +362,7 @@
 <script setup lang="ts">
 import { computed, nextTick } from 'vue'
 import type { ContestRequirement } from '../../types/research-contracts'
+import { createUuid } from '../../utils/uuid'
 import {
   FEASIBILITY_OPTIONS,
   feasibilityLabel,
@@ -433,7 +434,7 @@ function textOf(event: Event): string {
 // ── 方向 ────────────────────────────────────────────────────────────────
 function addDirection() {
   const next: TopicDirection = {
-    id: `dir-${crypto.randomUUID()}`,
+    id: `dir-${createUuid()}`,
     title: '',
     question: '',
     population: '',
@@ -512,7 +513,7 @@ function onSelectionReasonInput(event: Event) {
 
 // ── 未知项 ──────────────────────────────────────────────────────────────
 function addUnknown() {
-  const next = { id: `unknown-${crypto.randomUUID()}`, text: '', blocksDecision: false }
+  const next = { id: `unknown-${createUuid()}`, text: '', blocksDecision: false }
   commit({ unknowns: [...currentDraft().unknowns, next] })
 }
 

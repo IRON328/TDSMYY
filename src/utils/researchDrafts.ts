@@ -1,5 +1,6 @@
 import type { WorkflowKind, LocalResearchTask, CompetitionDraft, DraftContext, SandboxReference } from '../types/research-contracts';
 import { loadResearchIntakeDraft } from './research-intake';
+import { createUuid } from './uuid';
 export const TASK_STORAGE_KEY = 'shidiaoyanzhen.research-tasks.v1';
 const kinds: WorkflowKind[] = ['full-study', 'questionnaire-review', 'dataset-analysis'];
 const fullStages = ['赛事理解', '选题分析', '研究方案', '问卷设计与预测试', '正式调查', '数据分析', '报告与答辩'];
@@ -8,7 +9,7 @@ export function modeToKind(mode: unknown): WorkflowKind { return mode === 'analy
 export function kindToMode(kind: WorkflowKind) { return kind === 'dataset-analysis' ? 'analysis' : kind === 'questionnaire-review' ? 'questionnaire' : 'full'; }
 export function workflowLabel(kind: WorkflowKind) { return kind === 'dataset-analysis' ? '已有答卷／数据分析' : kind === 'questionnaire-review' ? '已有问卷核对' : '完整研究'; }
 export function emptyCompetitionDraft(): CompetitionDraft { return { background: '', edition: '', group: '', requirements: [], sources: [], unknowns: [] }; }
-export function createLocalTask(workflowKind: WorkflowKind, localTaskId = 'local-' + crypto.randomUUID(), now = Date.now()): LocalResearchTask {
+export function createLocalTask(workflowKind: WorkflowKind, localTaskId = 'local-' + createUuid(), now = Date.now()): LocalResearchTask {
     return { schemaVersion: 1, localTaskId, workflowKind, title: workflowKind === 'full-study' ? '新的完整研究' : workflowKind === 'questionnaire-review' ? '新的问卷核对' : '新的数据分析任务', viewedPhase: 0, revision: 0, createdAt: now, updatedAt: now, savedAt: null, inputFile: null, sandboxRef: null, competition: emptyCompetitionDraft() };
 }
 export function matchesDraftContext(task: LocalResearchTask, context: DraftContext) { return task.localTaskId === context.localTaskId && task.revision === context.revision; }
@@ -111,6 +112,36 @@ export function saveLocalTask(storage: Storage, registry: TaskRegistry, task: Lo
     return { ...next, baseline: serialized };
 }
 export function sandboxRefKey(localTaskId?: string) { return localTaskId ? 'research-sandbox-ref:task:' + localTaskId : 'research-sandbox-ref'; }
+
+/**
+ * 从本机目录里删掉一份任务。
+ *
+ * 必须和 `saveLocalTask` 走同一道并发闸门：磁盘上的串与 `registry.baseline`
+ * 不相等，就说明另一个页面已经改过目录，这次不删、让调用方提示刷新。
+ * 只要两者相等，那份串就一定是 `parseRegistry` 解析过或上一次 `saveLocalTask`
+ * 写出来的，结构必然合法，所以这里不必再解析一遍。
+ *
+ * `lastByKind` 里指向这份任务的指针要一并摘掉，否则下次 `parseRegistry`
+ * 会因「关联的任务不存在」把整份目录判为无效。
+ */
+export function removeLocalTask(storage: Storage, registry: TaskRegistry, localTaskId: string): TaskRegistry {
+    if (!registry.tasks[localTaskId])
+        throw Error('要删除的任务不在本机目录里');
+    const raw = storage.getItem(TASK_STORAGE_KEY);
+    if (raw !== registry.baseline)
+        throw Error('另一页面已更新本机草稿目录，本次未删除；请刷新核对后重试。');
+    const tasks = { ...registry.tasks };
+    delete tasks[localTaskId];
+    const lastByKind: TaskRegistry['lastByKind'] = {};
+    for (const kind of kinds) {
+        const id = registry.lastByKind[kind];
+        if (id !== undefined && id !== localTaskId)
+            lastByKind[kind] = id;
+    }
+    const serialized = JSON.stringify({ schemaVersion: 1, tasks, lastByKind });
+    storage.setItem(TASK_STORAGE_KEY, serialized);
+    return { schemaVersion: 1, tasks, lastByKind, baseline: serialized };
+}
 export function checkContestDraft(draft: CompetitionDraft): string[] {
     const issues: string[] = [];
     if (!draft.background.trim())
