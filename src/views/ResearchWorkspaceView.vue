@@ -14,6 +14,8 @@
       <div class="stage-content">
         <p class="stage-notice">正在查看：{{ currentStage?.title }}。浏览阶段不代表已完成、已采用或已推进。</p>
         <CompetitionUnderstandingHost v-if="kind==='full-study' && task.viewedPhase===0 && store.context" :key="task.localTaskId" :context="store.context" :draft="task.competition" @update-draft="store.updateCompetition" @save-local="store.save()" />
+        <TopicAnalysisHost v-else-if="kind==='full-study' && task.viewedPhase===1" :key="task.localTaskId" :local-task-id="task.localTaskId" :competition="task.competition" @view-phase="viewStage" />
+        <ResearchPlanHost v-else-if="kind==='full-study' && task.viewedPhase===2" :key="task.localTaskId" :local-task-id="task.localTaskId" :competition="task.competition" @view-phase="viewStage" />
         <ResearchSandboxView v-else-if="kind==='dataset-analysis' && task.viewedPhase===0" :key="task.localTaskId" :task-id="task.localTaskId" :task-title="task.title" :initial-sandbox-ref="task.sandboxRef" :persist-sandbox-reference="store.recordSandboxReference" :persist-input-file="store.recordInputFile" @update:task-title="updateTitle" @update:input-file="updateInputFile" @update:sandbox-ref="updateSandboxRef" />
         <div v-else class="stage-pending"><p class="eyebrow">{{ kind==='full-study'?'完整研究阶段范围':'独立快捷入口' }}</p><h2>{{currentStage?.title}}</h2><p>{{ stageDescription }}</p><p>业务功能待接入；没有将此任务标为完成，也没有调用旧数模智能体。</p><button v-if="task.viewedPhase>0" @click="viewStage(0)">返回{{stages[0]?.title}}</button></div>
       </div>
@@ -25,6 +27,8 @@ import { computed, watch } from 'vue'
 import { useRoute,useRouter } from 'vue-router'
 import ResearchSandboxView from '@/views/ResearchSandboxView.vue'
 import CompetitionUnderstandingHost from '@/views/research/CompetitionUnderstandingHost.vue'
+import TopicAnalysisHost from '@/views/research/TopicAnalysisHost.vue'
+import ResearchPlanHost from '@/views/research/ResearchPlanHost.vue'
 import { useResearchStore } from '@/stores/research'
 import { kindToMode,modeToKind,stagesFor,workflowLabel } from '@/utils/researchDrafts'
 import type {SelectedInputMetadata,SandboxReference} from '@/types/research-contracts'
